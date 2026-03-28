@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The B.O.L.D. Score — Free Podcast Audit · podcastgrowthbff.com</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hot-pink: #ff4d4d;
+      --pink-bg: #ffb0c3;
+      --blush: #fff5f5;
+      --crimson: #cc3030;
+      --charcoal: #2e2e2e;
+      --cream: #FDF8F5;
+      --white: #FFFFFF;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--charcoal);
+      min-height: 100vh;
+    }
+
+
+    /* ── EMAIL GATE ── */
+    .email-gate {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(46,46,46,0.88);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .email-gate.active { display: flex; }
+
+    .email-gate-card {
+      background: var(--white);
+      max-width: 480px;
+      width: 100%;
+      overflow: hidden;
+      animation: gateIn 0.4s ease both;
+    }
+
+    @keyframes gateIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .email-gate-header {
+      background: var(--charcoal);
+      padding: 32px 36px 28px;
+      position: relative;
+    }
+
+    .email-gate-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .email-gate-heading {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .email-gate-heading em {
+      font-style: italic;
+      color: var(--pink-bg);
+    }
+
+    .email-gate-body {
+      padding: 28px 36px 32px;
+    }
+
+    .email-gate-desc {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: rgba(46,46,46,0.65);
+      margin-bottom: 24px;
+    }
+
+    .gate-field {
+      margin-bottom: 12px;
+    }
+
+    .gate-field input {
+      width: 100%;
+      background: var(--blush);
+      border: 1px solid rgba(255,77,77,0.15);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      padding: 13px 16px;
+      outline: none;
+      color: var(--charcoal);
+      transition: border-color 0.2s;
+    }
+
+    .gate-field input:focus {
+      border-color: var(--hot-pink);
+    }
+
+    .gate-field input::placeholder {
+      color: rgba(46,46,46,0.38);
+    }
+
+    .gate-submit {
+      width: 100%;
+      background: var(--hot-pink);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 16px;
+      border: none;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .gate-submit:hover { background: var(--crimson); transform: translateY(-1px); }
+
+    .gate-privacy {
+      font-size: 0.7rem;
+      color: rgba(46,46,46,0.35);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .gate-scores-preview {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .gate-score-pill {
+      flex: 1;
+      background: var(--charcoal);
+      padding: 10px 8px;
+      text-align: center;
+      filter: blur(4px);
+      user-select: none;
+    }
+
+    .gate-score-pill-letter {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--hot-pink);
+      display: block;
+      line-height: 1;
+    }
+
+    .gate-score-pill-val {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--white);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .gate-blur-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      .scorecard-page { box-shadow: none; }
+    }
+
+    .scorecard-page {
+      max-width: 820px;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 4px 60px rgba(255,77,77,0.1);
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: var(--charcoal);
+      padding: 64px 64px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,77,77,0.2);
+    }
+
+    .cover::after {
+      content: 'BOLD';
+      position: absolute;
+      font-family: var(--font-display);
+      font-size: 18rem;
+      color: rgba(255,255,255,0.03);
+      bottom: -40px;
+      right: -20px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .cover-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      margin-bottom: 28px;
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 8vw, 7rem);
+      color: var(--white);
+      line-height: 0.9;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-title-sub {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      color: var(--hot-pink);
+      line-height: 1;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-subtitle {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 2;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    .bold-strip {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(255,77,77,0.3);
+      width: fit-content;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 40px;
+    }
+
+    .bold-strip-item {
+      padding: 12px 20px;
+      border-right: 1px solid rgba(255,77,77,0.3);
+      text-align: center;
+    }
+
+    .bold-strip-item:last-child { border-right: none; }
+
+    .bold-strip-letter {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--hot-pink);
+      display: block;
+      line-height: 1;
+    }
+
+    .bold-strip-word {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .cover-from {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-from strong { color: rgba(255,255,255,0.5); }
+
+    /* ── INTRO ── */
+    .intro {
+      padding: 52px 64px 44px;
+      border-bottom: 1px solid rgba(255,77,77,0.1);
+      background: var(--pink-bg);
+    }
+
+    .intro-heading {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--charcoal);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .intro-heading em { font-style: italic; color: var(--hot-pink); }
+
+    .intro-body {
+      font-size: 0.93rem;
+      line-height: 1.85;
+      color: rgba(30,30,30,0.72);
+      max-width: 580px;
+    }
+
+    .intro-body p + p { margin-top: 12px; }
+
+    .how-to-box {
+      margin-top: 28px;
+      background: var(--white);
+      border-left: 3px solid var(--hot-pink);
+      padding: 18px 22px;
+    }
+
+    .how-to-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .how-to-body {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--charcoal);
+    }
+
+    /* ── PILLARS ── */
+    .pillar {
+      padding: 44px 64px;
+      border-bottom: 1px solid rgba(255,77,77,0.08);
+    }
+
+    .pillar:nth-child(even) { background: var(--cream); }
+    .pillar:nth-child(odd) { background: white; }
+
+    .pillar-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .pillar-letter-block {
+      width: 60px;
+      height: 60px;
+      background: var(--hot-pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pillar-letter-block span {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .pillar-title-group { flex: 1; }
+
+    .pillar-name {
+      font-family: var(--font-serif);
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--charcoal);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pillar-tagline {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+    }
+
+    /* ── QUESTIONS ── */
+    .questions { display: flex; flex-direction: column; gap: 18px; }
+
+    .question-item {
+      background: var(--blush);
+      border: 1px solid rgba(255,77,77,0.1);
+      padding: 18px 22px;
+    }
+
+    .pillar:nth-child(odd) .question-item { background: var(--cream); }
+
+    .question-text {
+      font-size: 0.91rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .question-hint {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: rgba(30,30,30,0.48);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(255,77,77,0.15);
+      overflow: hidden;
+    }
+
+    .radio-option { flex: 1; text-align: center; cursor: pointer; }
+    .radio-option input[type="radio"] { display: none; }
+
+    .radio-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 6px;
+      border-right: 1px solid rgba(255,77,77,0.1);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      height: 100%;
+    }
+
+    .radio-option:last-child .radio-label { border-right: none; }
+
+    .radio-score {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 300;
+      color: var(--charcoal);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .radio-desc {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(30,30,30,0.38);
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    .radio-option input:checked + .radio-label { background: var(--hot-pink); }
+    .radio-option input:checked + .radio-label .radio-score { color: white; }
+    .radio-option input:checked + .radio-label .radio-desc { color: rgba(255,255,255,0.65); }
+    .radio-label:hover { background: var(--pink-bg); }
+    .radio-option input:checked + .radio-label:hover { background: var(--hot-pink); }
+
+    /* ── PILLAR SUBTOTAL ── */
+    .pillar-subtotal {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 14px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,77,77,0.1);
+    }
+
+    .pillar-subtotal-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(30,30,30,0.38);
+    }
+
+    .pillar-subtotal-value {
+      font-family: var(--font-serif);
+      font-size: 1.9rem;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--hot-pink);
+      min-width: 48px;
+      text-align: right;
+    }
+
+    .pillar-subtotal-max {
+      font-size: 0.75rem;
+      color: rgba(30,30,30,0.28);
+      align-self: flex-end;
+      margin-bottom: 4px;
+    }
+
+    /* ── CALCULATE ── */
+    .calculate-wrap {
+      padding: 36px 64px;
+      background: white;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,77,77,0.08);
+    }
+
+    .calculate-btn {
+      background: var(--hot-pink);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 18px 48px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .calculate-btn:hover { background: var(--crimson); transform: translateY(-1px); }
+
+    .calculate-note {
+      margin-top: 10px;
+      font-size: 0.76rem;
+      color: rgba(30,30,30,0.38);
+      font-style: italic;
+    }
+
+    /* ── SCORE SUMMARY ── */
+    .score-summary {
+      padding: 52px 64px;
+      background: var(--charcoal);
+      display: none;
+    }
+
+    .score-summary-heading {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-bottom: 32px;
+    }
+
+    .score-cell {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,77,77,0.2);
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    .score-cell-letter {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--hot-pink);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .score-cell-name {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .score-cell-value {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--white);
+      display: block;
+      line-height: 1;
+    }
+
+    .score-cell-max { font-size: 0.68rem; color: rgba(255,255,255,0.28); }
+
+    .total-row {
+      background: rgba(255,77,77,0.12);
+      border: 1px solid rgba(255,77,77,0.3);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .total-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+    }
+
+    .total-value {
+      font-family: var(--font-serif);
+      font-size: 3.2rem;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .total-max {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.3);
+      align-self: flex-end;
+      margin-bottom: 6px;
+    }
+
+    /* ── RESULT BANDS ── */
+    .result-bands { display: flex; flex-direction: column; gap: 2px; }
+
+    .result-band {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0.38;
+      transition: opacity 0.2s ease;
+    }
+
+    .result-band.active { opacity: 1; }
+
+    .result-band-range {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--hot-pink);
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+
+    .result-band-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      min-width: 110px;
+      flex-shrink: 0;
+    }
+
+    .result-band-desc {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+    }
+
+    /* ── RESULT CALLOUT ── */
+    .result-callout {
+      padding: 44px 64px;
+      background: var(--blush);
+      display: none;
+    }
+
+    .result-callout-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .result-callout-heading {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--charcoal);
+      margin-bottom: 14px;
+      line-height: 1.15;
+    }
+
+    .result-callout-heading em { font-style: italic; color: var(--hot-pink); }
+
+    .lowest-pillar-box {
+      background: white;
+      border-left: 3px solid var(--hot-pink);
+      padding: 18px 22px;
+      margin-top: 20px;
+    }
+
+    .lowest-pillar-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .lowest-pillar-name {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .lowest-pillar-desc {
+      font-size: 0.84rem;
+      color: rgba(30,30,30,0.62);
+      line-height: 1.6;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 52px 64px;
+      background: var(--hot-pink);
+      text-align: center;
+      display: none;
+    }
+
+    .cta-heading {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+
+    .cta-heading em { font-style: italic; color: var(--charcoal); }
+
+    .cta-body {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.72);
+      max-width: 440px;
+      margin: 0 auto 28px;
+      line-height: 1.75;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--charcoal);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin-bottom: 14px;
+    }
+
+    .cta-button:hover { background: #000; }
+
+    .cta-or {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      margin: 12px 0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .cta-secondary {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    .scorecard-footer {
+      padding: 28px 64px;
+      background: var(--charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .footer-tagline {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 640px) {
+      .cover, .intro, .pillar, .score-summary,
+      .result-callout, .cta-section, .scorecard-footer,
+      .calculate-wrap { padding-left: 24px; padding-right: 24px; }
+      .score-grid { grid-template-columns: repeat(2, 1fr); }
+      .bold-strip { flex-wrap: wrap; }
+      .radio-desc { display: none; }
+      .scorecard-footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="scorecard-page">
+
+  <!-- ── COVER ── -->
+  <div class="cover">
+    <span class="cover-eyebrow">Free Podcast Diagnostic · podcastgrowthbff.com</span>
+    <h1 class="cover-title">THE B.O.L.D.</h1>
+    <h2 class="cover-title-sub">SCORE</h2>
+    <p class="cover-subtitle">Rate your podcast across four structural pillars. Find out exactly where your growth is stalling — and why.</p>
+    <div class="bold-strip">
+      <div class="bold-strip-item"><span class="bold-strip-letter">B</span><span class="bold-strip-word">Brand</span></div>
+      <div class="bold-strip-item"><span class="bold-strip-letter">O</span><span class="bold-strip-word">Organic</span></div>
+      <div class="bold-strip-item"><span class="bold-strip-letter">L</span><span class="bold-strip-word">Lead</span></div>
+      <div class="bold-strip-item"><span class="bold-strip-letter">D</span><span class="bold-strip-word">Durability</span></div>
+    </div>
+    <p class="cover-from">A free resource from <strong>It's Me, Michelle Castro</strong> · Podcast Growth Strategies for Christian Female Podcasters</p>
+  </div>
+
+  <!-- ── INTRO ── -->
+  <div class="intro">
+    <h2 class="intro-heading">You're showing up faithfully.<br><em>So why isn't it growing?</em></h2>
+    <div class="intro-body">
+      <p>You've published consistently. You've done the courses, maybe even hired a coach. You're watching what the big podcasters do and trying to apply it. But the downloads aren't moving the way you expected — and you're not sure what's actually wrong.</p>
+      <p>This scorecard runs your podcast through the same four-pillar framework used in the full Podcast Growth OS audit. It won't tell you everything — but it will tell you exactly where to look first.</p>
+      <p>Be honest. That's the only way this works.</p>
+    </div>
+    <div class="how-to-box">
+      <span class="how-to-label">How to use this scorecard</span>
+      <p class="how-to-body">Score each statement from <strong>1 to 5</strong>. Add up your scores within each pillar, then calculate your total B.O.L.D. Score at the end. Your lowest-scoring pillar is your primary growth bottleneck.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PILLAR B — BRAND CLARITY
+  ══════════════════════════════════ -->
+  <div class="pillar" id="pillar-b">
+    <div class="pillar-header">
+      <div class="pillar-letter-block"><span>B</span></div>
+      <div class="pillar-title-group">
+        <h2 class="pillar-name">Brand Clarity</h2>
+        <p class="pillar-tagline">Positioning · Niche · Transformation Promise · Authority</p>
+      </div>
+    </div>
+    <div class="questions">
+      <div class="question-item">
+        <p class="question-text">1. If someone lands on your podcast for the first time, it is immediately clear who it is for and what they will gain.</p>
+        <p class="question-hint">Think about your show description, tagline, and first 60 seconds of your trailer or most recent episode.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="b1" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Not at all clear</span></span></label>
+          <label class="radio-option"><input type="radio" name="b1" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Somewhat vague</span></span></label>
+          <label class="radio-option"><input type="radio" name="b1" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Somewhat clear</span></span></label>
+          <label class="radio-option"><input type="radio" name="b1" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Mostly clear</span></span></label>
+          <label class="radio-option"><input type="radio" name="b1" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Crystal clear</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">2. My podcast has a specific, defined audience — not just "Christian women."</p>
+        <p class="question-hint">Could you describe her in one sentence? Her specific season, struggle, or identity?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="b2" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Very broad</span></span></label>
+          <label class="radio-option"><input type="radio" name="b2" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Somewhat broad</span></span></label>
+          <label class="radio-option"><input type="radio" name="b2" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Narrowing</span></span></label>
+          <label class="radio-option"><input type="radio" name="b2" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Fairly specific</span></span></label>
+          <label class="radio-option"><input type="radio" name="b2" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Very specific</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">3. My podcast has a clear transformation promise — I can articulate what she walks away with after listening.</p>
+        <p class="question-hint">Not just topics you cover, but the actual shift that happens for her.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="b3" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No clear promise</span></span></label>
+          <label class="radio-option"><input type="radio" name="b3" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Vague promise</span></span></label>
+          <label class="radio-option"><input type="radio" name="b3" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">General promise</span></span></label>
+          <label class="radio-option"><input type="radio" name="b3" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Mostly clear</span></span></label>
+          <label class="radio-option"><input type="radio" name="b3" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Specific & clear</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">4. My podcast is meaningfully different from others in the same space. I can articulate what makes it distinct.</p>
+        <p class="question-hint">If someone compared your show to three others in your niche, would yours stand out — or blend in?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="b4" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Very similar</span></span></label>
+          <label class="radio-option"><input type="radio" name="b4" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Some overlap</span></span></label>
+          <label class="radio-option"><input type="radio" name="b4" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Some distinction</span></span></label>
+          <label class="radio-option"><input type="radio" name="b4" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Clearly distinct</span></span></label>
+          <label class="radio-option"><input type="radio" name="b4" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Unmistakably mine</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">5. My host bio and show description reflect someone who knows what she carries — not someone still asking permission to say it.</p>
+        <p class="question-hint">Read your bio out loud. Does it sound like authority or apology?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="b5" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Hesitant</span></span></label>
+          <label class="radio-option"><input type="radio" name="b5" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Understated</span></span></label>
+          <label class="radio-option"><input type="radio" name="b5" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Moderate</span></span></label>
+          <label class="radio-option"><input type="radio" name="b5" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Confident</span></span></label>
+          <label class="radio-option"><input type="radio" name="b5" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Full authority</span></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="pillar-subtotal">
+      <span class="pillar-subtotal-label">Brand Clarity Score</span>
+      <span class="pillar-subtotal-value" id="b-total">—</span>
+      <span class="pillar-subtotal-max">/ 25</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PILLAR O — ORGANIC REACH
+  ══════════════════════════════════ -->
+  <div class="pillar" id="pillar-o">
+    <div class="pillar-header">
+      <div class="pillar-letter-block"><span>O</span></div>
+      <div class="pillar-title-group">
+        <h2 class="pillar-name">Organic Reach</h2>
+        <p class="pillar-tagline">Discoverability · Keywords · Title Structure · Visibility</p>
+      </div>
+    </div>
+    <div class="questions">
+      <div class="question-item">
+        <p class="question-text">6. My episode titles are written for searchability — not just cleverness or inspiration.</p>
+        <p class="question-hint">Would a woman searching for help with your topic find your episode by its title?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="o1" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Never</span></span></label>
+          <label class="radio-option"><input type="radio" name="o1" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Rarely</span></span></label>
+          <label class="radio-option"><input type="radio" name="o1" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Sometimes</span></span></label>
+          <label class="radio-option"><input type="radio" name="o1" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Usually</span></span></label>
+          <label class="radio-option"><input type="radio" name="o1" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Always</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">7. I use intentional keywords in my episode titles, show notes, and podcast description.</p>
+        <p class="question-hint">Keywords are the words and phrases your ideal listener is actually typing into a search bar.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="o2" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No strategy</span></span></label>
+          <label class="radio-option"><input type="radio" name="o2" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Occasional</span></span></label>
+          <label class="radio-option"><input type="radio" name="o2" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Inconsistent</span></span></label>
+          <label class="radio-option"><input type="radio" name="o2" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Usually intentional</span></span></label>
+          <label class="radio-option"><input type="radio" name="o2" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Fully strategic</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">8. My podcast cover art is readable at thumbnail size and communicates the show's niche clearly.</p>
+        <p class="question-hint">Shrink your cover art to 60x60px in your mind. Can you still read the title? Does it signal what the show is about?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="o3" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Illegible</span></span></label>
+          <label class="radio-option"><input type="radio" name="o3" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Hard to read</span></span></label>
+          <label class="radio-option"><input type="radio" name="o3" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Readable</span></span></label>
+          <label class="radio-option"><input type="radio" name="o3" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Clear & distinct</span></span></label>
+          <label class="radio-option"><input type="radio" name="o3" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Stops the scroll</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">9. My show notes go beyond a summary — they include searchable keywords and context that help the episode get found.</p>
+        <p class="question-hint">Show notes are SEO real estate. Are yours working or are they one paragraph copied from your intro?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="o4" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Minimal/none</span></span></label>
+          <label class="radio-option"><input type="radio" name="o4" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Basic summary</span></span></label>
+          <label class="radio-option"><input type="radio" name="o4" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Decent but generic</span></span></label>
+          <label class="radio-option"><input type="radio" name="o4" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Keyword-aware</span></span></label>
+          <label class="radio-option"><input type="radio" name="o4" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Fully optimized</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">10. I know my Listen Notes ranking or score and understand what it signals about my show's visibility.</p>
+        <p class="question-hint">Listen Notes is a searchable podcast directory. Your ranking is a discoverability signal worth tracking.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="o5" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Never heard of it</span></span></label>
+          <label class="radio-option"><input type="radio" name="o5" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Heard of it</span></span></label>
+          <label class="radio-option"><input type="radio" name="o5" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Know my rank</span></span></label>
+          <label class="radio-option"><input type="radio" name="o5" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Track it regularly</span></span></label>
+          <label class="radio-option"><input type="radio" name="o5" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Leverage it actively</span></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="pillar-subtotal">
+      <span class="pillar-subtotal-label">Organic Reach Score</span>
+      <span class="pillar-subtotal-value" id="o-total">—</span>
+      <span class="pillar-subtotal-max">/ 25</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PILLAR L — LEAD PATH
+  ══════════════════════════════════ -->
+  <div class="pillar" id="pillar-l">
+    <div class="pillar-header">
+      <div class="pillar-letter-block"><span>L</span></div>
+      <div class="pillar-title-group">
+        <h2 class="pillar-name">Lead Path</h2>
+        <p class="pillar-tagline">CTA Clarity · Funnel Alignment · Email Capture</p>
+      </div>
+    </div>
+    <div class="questions">
+      <div class="question-item">
+        <p class="question-text">11. Every episode has one clear, specific call to action — and I say it every time.</p>
+        <p class="question-hint">Not five things she could do. One thing. Consistently. Every episode.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="l1" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No CTA</span></span></label>
+          <label class="radio-option"><input type="radio" name="l1" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Inconsistent</span></span></label>
+          <label class="radio-option"><input type="radio" name="l1" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Sometimes</span></span></label>
+          <label class="radio-option"><input type="radio" name="l1" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Usually</span></span></label>
+          <label class="radio-option"><input type="radio" name="l1" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Every episode</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">12. I have a free opt-in that is directly connected to the topic of my podcast and compels her to subscribe.</p>
+        <p class="question-hint">Does your freebie feel like a natural next step after listening — or an afterthought?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="l2" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No opt-in</span></span></label>
+          <label class="radio-option"><input type="radio" name="l2" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Loosely related</span></span></label>
+          <label class="radio-option"><input type="radio" name="l2" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Related but weak</span></span></label>
+          <label class="radio-option"><input type="radio" name="l2" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Well aligned</span></span></label>
+          <label class="radio-option"><input type="radio" name="l2" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Perfect fit</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">13. When someone subscribes to my email list, they receive a nurture sequence that builds relationship and moves them closer to my offer.</p>
+        <p class="question-hint">Or do they get a confirmation email and then silence?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="l3" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No sequence</span></span></label>
+          <label class="radio-option"><input type="radio" name="l3" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Welcome only</span></span></label>
+          <label class="radio-option"><input type="radio" name="l3" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">1–2 follow-ups</span></span></label>
+          <label class="radio-option"><input type="radio" name="l3" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">3-email sequence</span></span></label>
+          <label class="radio-option"><input type="radio" name="l3" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Full nurture flow</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">14. My podcast listener has a clear path from casual listener → email subscriber → community member or buyer.</p>
+        <p class="question-hint">Can you trace the exact steps she would take? Or does the path go cold after she hits follow?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="l4" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No path exists</span></span></label>
+          <label class="radio-option"><input type="radio" name="l4" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Vague path</span></span></label>
+          <label class="radio-option"><input type="radio" name="l4" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Partial path</span></span></label>
+          <label class="radio-option"><input type="radio" name="l4" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Most steps clear</span></span></label>
+          <label class="radio-option"><input type="radio" name="l4" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Fully mapped</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">15. My CTA language feels like an invitation, not an obligation. It reflects the value she receives — not just what I want her to do.</p>
+        <p class="question-hint">Read your CTA out loud. Does it make her want to take action — or feel like a checkbox?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="l5" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Feels obligatory</span></span></label>
+          <label class="radio-option"><input type="radio" name="l5" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Generic</span></span></label>
+          <label class="radio-option"><input type="radio" name="l5" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Functional</span></span></label>
+          <label class="radio-option"><input type="radio" name="l5" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Value-forward</span></span></label>
+          <label class="radio-option"><input type="radio" name="l5" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Compelling</span></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="pillar-subtotal">
+      <span class="pillar-subtotal-label">Lead Path Score</span>
+      <span class="pillar-subtotal-value" id="l-total">—</span>
+      <span class="pillar-subtotal-max">/ 25</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PILLAR D — DURABILITY
+  ══════════════════════════════════ -->
+  <div class="pillar" id="pillar-d">
+    <div class="pillar-header">
+      <div class="pillar-letter-block"><span>D</span></div>
+      <div class="pillar-title-group">
+        <h2 class="pillar-name">Durability</h2>
+        <p class="pillar-tagline">Sustainability · Publishing Consistency · Pillar Structure</p>
+      </div>
+    </div>
+    <div class="questions">
+      <div class="question-item">
+        <p class="question-text">16. I publish on a consistent schedule and have maintained that rhythm for at least the past 60 days.</p>
+        <p class="question-hint">Consistency is an algorithm signal and a trust signal. Both matter.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="d1" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Very inconsistent</span></span></label>
+          <label class="radio-option"><input type="radio" name="d1" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Occasional gaps</span></span></label>
+          <label class="radio-option"><input type="radio" name="d1" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Mostly consistent</span></span></label>
+          <label class="radio-option"><input type="radio" name="d1" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Consistent</span></span></label>
+          <label class="radio-option"><input type="radio" name="d1" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Rock solid</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">17. My podcast has 3–4 defined content pillars that all episodes fall under — and I can name them right now.</p>
+        <p class="question-hint">Pillars create a content system. Without them, you're improvising every week.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="d2" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">No pillars</span></span></label>
+          <label class="radio-option"><input type="radio" name="d2" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Vague themes</span></span></label>
+          <label class="radio-option"><input type="radio" name="d2" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Some structure</span></span></label>
+          <label class="radio-option"><input type="radio" name="d2" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Clear pillars</span></span></label>
+          <label class="radio-option"><input type="radio" name="d2" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Named & active</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">18. My current content format and publishing schedule is sustainable for my actual life — not aspirational.</p>
+        <p class="question-hint">What you can maintain matters more than what impresses. Burnout ends podcasts.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="d3" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Burning out</span></span></label>
+          <label class="radio-option"><input type="radio" name="d3" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Stretched thin</span></span></label>
+          <label class="radio-option"><input type="radio" name="d3" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Manageable</span></span></label>
+          <label class="radio-option"><input type="radio" name="d3" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Sustainable</span></span></label>
+          <label class="radio-option"><input type="radio" name="d3" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Built to last</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">19. My episodes are aligned with my core mission — not drifting toward topics that perform but pull me off message.</p>
+        <p class="question-hint">Have you been chasing trends or what gets downloads instead of staying in your lane?</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="d4" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Significant drift</span></span></label>
+          <label class="radio-option"><input type="radio" name="d4" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Some drift</span></span></label>
+          <label class="radio-option"><input type="radio" name="d4" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">Mostly aligned</span></span></label>
+          <label class="radio-option"><input type="radio" name="d4" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">Well aligned</span></span></label>
+          <label class="radio-option"><input type="radio" name="d4" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">Fully on mission</span></span></label>
+        </div>
+      </div>
+      <div class="question-item">
+        <p class="question-text">20. I have a realistic plan for the next 90 days of content — I know what I'm recording and approximately when.</p>
+        <p class="question-hint">A content plan removes the weekly decision fatigue that slowly kills podcasts.</p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="d5" value="1"><span class="radio-label"><span class="radio-score">1</span><span class="radio-desc">Week to week</span></span></label>
+          <label class="radio-option"><input type="radio" name="d5" value="2"><span class="radio-label"><span class="radio-score">2</span><span class="radio-desc">Few weeks out</span></span></label>
+          <label class="radio-option"><input type="radio" name="d5" value="3"><span class="radio-label"><span class="radio-score">3</span><span class="radio-desc">30 days planned</span></span></label>
+          <label class="radio-option"><input type="radio" name="d5" value="4"><span class="radio-label"><span class="radio-score">4</span><span class="radio-desc">60 days planned</span></span></label>
+          <label class="radio-option"><input type="radio" name="d5" value="5"><span class="radio-label"><span class="radio-score">5</span><span class="radio-desc">90 days mapped</span></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="pillar-subtotal">
+      <span class="pillar-subtotal-label">Durability Score</span>
+      <span class="pillar-subtotal-value" id="d-total">—</span>
+      <span class="pillar-subtotal-max">/ 25</span>
+    </div>
+  </div>
+
+  <!-- ── CALCULATE ── -->
+  <div class="calculate-wrap no-print">
+    <button class="calculate-btn" onclick="calculateScore()">Calculate My B.O.L.D. Score →</button>
+    <p class="calculate-note">Answer all 20 questions before calculating.</p>
+  </div>
+
+  <!-- ── SCORE SUMMARY ── -->
+  <div class="score-summary" id="score-summary">
+    <h2 class="score-summary-heading">Your B.O.L.D. Score</h2>
+    <div class="score-grid">
+      <div class="score-cell"><span class="score-cell-letter">B</span><span class="score-cell-name">Brand Clarity</span><span class="score-cell-value" id="b-display">—</span><span class="score-cell-max">out of 25</span></div>
+      <div class="score-cell"><span class="score-cell-letter">O</span><span class="score-cell-name">Organic Reach</span><span class="score-cell-value" id="o-display">—</span><span class="score-cell-max">out of 25</span></div>
+      <div class="score-cell"><span class="score-cell-letter">L</span><span class="score-cell-name">Lead Path</span><span class="score-cell-value" id="l-display">—</span><span class="score-cell-max">out of 25</span></div>
+      <div class="score-cell"><span class="score-cell-letter">D</span><span class="score-cell-name">Durability</span><span class="score-cell-value" id="d-display">—</span><span class="score-cell-max">out of 25</span></div>
+    </div>
+    <div class="total-row">
+      <span class="total-label">Total B.O.L.D. Score</span>
+      <div style="display:flex;align-items:flex-end;gap:8px;">
+        <span class="total-value" id="total-display">—</span>
+        <span class="total-max">/ 100</span>
+      </div>
+    </div>
+    <div class="result-bands">
+      <div class="result-band" id="band-1"><span class="result-band-range">20–39</span><span class="result-band-title">Foundation Stage</span><span class="result-band-desc">Significant structural gaps across multiple pillars. Focus on one pillar at a time — starting with your lowest score.</span></div>
+      <div class="result-band" id="band-2"><span class="result-band-range">40–59</span><span class="result-band-title">Emerging Structure</span><span class="result-band-desc">Real pieces in place — but not fully connected. One or two structural fixes will create noticeable momentum.</span></div>
+      <div class="result-band" id="band-3"><span class="result-band-range">60–79</span><span class="result-band-title">Aligned & Building</span><span class="result-band-desc">Your show has a working structure. The gaps are specific — and closing them compounds quickly at this stage.</span></div>
+      <div class="result-band" id="band-4"><span class="result-band-range">80–100</span><span class="result-band-title">Optimized & Scaling</span><span class="result-band-desc">You've built something solid. Now it's about refinement, amplification, and staying ahead of drift as you grow.</span></div>
+    </div>
+  </div>
+
+  <!-- ── RESULT CALLOUT ── -->
+  <div class="result-callout" id="result-callout">
+    <span class="result-callout-label">Your Primary Growth Bottleneck</span>
+    <h2 class="result-callout-heading" id="result-heading">Your lowest score tells you<br><em>exactly where to start.</em></h2>
+    <div class="lowest-pillar-box">
+      <span class="lowest-pillar-label">Lowest Scoring Pillar</span>
+      <p class="lowest-pillar-name" id="lowest-pillar-name">—</p>
+      <p class="lowest-pillar-desc" id="lowest-pillar-desc">—</p>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta-section" id="cta-section">
+    <h2 class="cta-heading">Ready for the full<br><em>diagnosis?</em></h2>
+    <p class="cta-body">The B.O.L.D. Score shows you where to look. The Podcast Growth OS tells you exactly what to do — with a complete strategic blueprint, 90-day episode plan, and a custom GPT built for your show.</p>
+    <a href="https://podcastgrowthbff.com" class="cta-button">Join the Waitlist for the Full OS →</a>
+    <p class="cta-or">or</p>
+    <p class="cta-secondary">Listen to <strong>Podcast Growth Strategies for Christian Female Podcasters</strong><br>wherever you get your podcasts.</p>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="scorecard-footer">
+    <p class="footer-brand">podcast growth bff</p>
+    <p class="footer-tagline">B.O.L.D. Framework · podcastgrowthbff.com</p>
+  </div>
+
+</div>
+
+<!-- ── EMAIL GATE MODAL ── -->
+<div class="email-gate" id="email-gate">
+  <div class="email-gate-card">
+    <div class="email-gate-header">
+      <span class="email-gate-eyebrow">Your results are ready</span>
+      <h2 class="email-gate-heading">Where should I<br>send your <em>B.O.L.D. Score?</em></h2>
+    </div>
+    <div class="email-gate-body">
+      <p class="email-gate-desc">You've done the work. Enter your name and email to reveal your score — and I'll send you a personalized next step based on your lowest pillar.</p>
+      <p class="gate-blur-label">Your score is waiting →</p>
+      <div class="gate-scores-preview">
+        <div class="gate-score-pill"><span class="gate-score-pill-letter">B</span><span class="gate-score-pill-val" id="blur-b">—</span></div>
+        <div class="gate-score-pill"><span class="gate-score-pill-letter">O</span><span class="gate-score-pill-val" id="blur-o">—</span></div>
+        <div class="gate-score-pill"><span class="gate-score-pill-letter">L</span><span class="gate-score-pill-val" id="blur-l">—</span></div>
+        <div class="gate-score-pill"><span class="gate-score-pill-letter">D</span><span class="gate-score-pill-val" id="blur-d">—</span></div>
+      </div>
+      <div class="gate-field"><input type="text" id="gate-name" placeholder="First name" required /></div>
+      <div class="gate-field"><input type="email" id="gate-email" placeholder="Email address" required /></div>
+      <div class="gate-field"><input type="text" id="gate-podcast" placeholder="Podcast name (optional)" /></div>
+      <button class="gate-submit" onclick="submitGate()">Reveal My B.O.L.D. Score →</button>
+      <p class="gate-privacy">No spam. Your score + one actionable next step, delivered to your inbox. That's it.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pillarDescriptions = {
+    B: { name: "Brand Clarity", desc: "Your positioning, niche, and transformation promise need structural work. Before SEO and funnels can do their job, she needs to know immediately who this show is for and what it does for her. This is where to start." },
+    O: { name: "Organic Reach", desc: "Your show isn't as findable as it should be. The right listener is searching for exactly what you offer — but your titles, show notes, or cover art aren't giving the algorithm enough to work with. This is a fixable, technical problem." },
+    L: { name: "Lead Path", desc: "You're building an audience with no place to send her. Without a clear CTA, a compelling opt-in, and a nurture sequence, your most engaged listeners have no next step — and you have no way to stay connected when the algorithm shifts." },
+    D: { name: "Durability", desc: "Your content system or publishing rhythm has gaps that will eventually cost you. Whether it's pillar drift, unsustainable pace, or no 90-day plan, durability gaps quietly erode what you've built. Structure this now before growth amplifies the problem." }
+  };
+
+  function getPillarScore(prefix, count) {
+    let total = 0, answered = 0;
+    for (let i = 1; i <= count; i++) {
+      const sel = document.querySelector(`input[name="${prefix}${i}"]:checked`);
+      if (sel) { total += parseInt(sel.value); answered++; }
+    }
+    return { total, answered };
+  }
+
+  // Store scores globally for use after email gate
+  let _scores = {};
+
+  function calculateScore() {
+    const b = getPillarScore('b', 5);
+    const o = getPillarScore('o', 5);
+    const l = getPillarScore('l', 5);
+    const d = getPillarScore('d', 5);
+
+    if (b.answered < 5 || o.answered < 5 || l.answered < 5 || d.answered < 5) {
+      alert("Please answer all 20 questions before calculating your score.");
+      return;
+    }
+
+    // Store scores
+    _scores = { b: b.total, o: o.total, l: l.total, d: d.total,
+                grand: b.total + o.total + l.total + d.total };
+
+    // Update subtotals
+    document.getElementById('b-total').textContent = b.total;
+    document.getElementById('o-total').textContent = o.total;
+    document.getElementById('l-total').textContent = l.total;
+    document.getElementById('d-total').textContent = d.total;
+
+    // Show blurred preview in gate
+    document.getElementById('blur-b').textContent = b.total;
+    document.getElementById('blur-o').textContent = o.total;
+    document.getElementById('blur-l').textContent = l.total;
+    document.getElementById('blur-d').textContent = d.total;
+
+    // Show email gate
+    document.getElementById('email-gate').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function submitGate() {
+    const name = document.getElementById('gate-name').value.trim();
+    const email = document.getElementById('gate-email').value.trim();
+    const podcast = document.getElementById('gate-podcast').value.trim();
+
+    if (!name || !email) {
+      alert("Please enter your name and email to see your results.");
+      return;
+    }
+
+    if (!email.includes('@')) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Send to Flodesk
+    if (typeof window.fd === 'function') {
+      window.fd('form', {
+        formId: '69c75e3974096dc5b94714bd',
+        containerEl: 'body'
+      });
+    }
+
+    // Close gate
+    document.getElementById('email-gate').classList.remove('active');
+    document.body.style.overflow = '';
+
+    // Now reveal results
+    revealResults();
+  }
+
+  function revealResults() {
+    const { b, o, l, d, grand } = _scores;
+
+    const summary = document.getElementById('score-summary');
+    summary.style.display = 'block';
+    document.getElementById('b-display').textContent = b;
+    document.getElementById('o-display').textContent = o;
+    document.getElementById('l-display').textContent = l;
+    document.getElementById('d-display').textContent = d;
+    document.getElementById('total-display').textContent = grand;
+
+    ['band-1','band-2','band-3','band-4'].forEach(id => document.getElementById(id).classList.remove('active'));
+    if (grand <= 39) document.getElementById('band-1').classList.add('active');
+    else if (grand <= 59) document.getElementById('band-2').classList.add('active');
+    else if (grand <= 79) document.getElementById('band-3').classList.add('active');
+    else document.getElementById('band-4').classList.add('active');
+
+    const scoreMap = { B: b, O: o, L: l, D: d };
+    const lowest = Object.entries(scoreMap).sort((a,b) => a[1]-b[1])[0];
+    const info = pillarDescriptions[lowest[0]];
+
+    const callout = document.getElementById('result-callout');
+    callout.style.display = 'block';
+    document.getElementById('lowest-pillar-name').textContent = info.name;
+    document.getElementById('lowest-pillar-desc').textContent = info.desc;
+
+    document.getElementById('cta-section').style.display = 'block';
+
+    summary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  ['b','o','l','d'].forEach(prefix => {
+    for (let i = 1; i <= 5; i++) {
+      document.querySelectorAll(`input[name="${prefix}${i}"]`).forEach(input => {
+        input.addEventListener('change', () => {
+          const result = getPillarScore(prefix, 5);
+          const el = document.getElementById(`${prefix}-total`);
+          if (result.answered > 0) el.textContent = result.total;
+        });
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
