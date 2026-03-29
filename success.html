@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Successful — Redirecting...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@0,400;0,600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FDF8F5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .check {
+      width: 64px;
+      height: 64px;
+      background: #ff4d4d;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 1.8rem;
+      color: white;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #2e2e2e;
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    h1 em { font-style: italic; color: #ff4d4d; }
+    p {
+      font-size: 0.95rem;
+      color: rgba(46,46,46,0.6);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .btn {
+      display: inline-block;
+      background: #ff4d4d;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #e03030; }
+    .note {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: rgba(46,46,46,0.35);
+    }
+    .countdown {
+      font-weight: 700;
+      color: #ff4d4d;
+    }
+  </style>
+  <script>
+    // Redirect automatically after 3 seconds
+    // No auto-redirect - capture email first
+  </script>
+</head>
+<body>
+  <div class="card">
+    <div class="check">✓</div>
+    <h1>Payment confirmed.<br><em>You're in!</em></h1>
+    <p style="font-size:1rem; color:#2e2e2e; font-weight:600; margin-bottom:8px;">You just did something big for your podcast. 🎉</p>
+    <p>Drop your email below and I'll send your exclusive diagnostic link straight to your inbox — so you always have it, even if life gets in the way today.</p>
 
+    <form id="email-capture-form" style="display:flex; flex-direction:column; gap:10px; margin:24px 0; text-align:left;">
+      <input type="text" id="capture-name" placeholder="First name" style="width:100%; padding:13px 16px; border:1px solid rgba(46,46,46,0.15); font-family:'DM Sans',sans-serif; font-size:0.9rem; color:#2e2e2e; outline:none;" />
+      <input type="email" id="capture-email" placeholder="Email address" style="width:100%; padding:13px 16px; border:1px solid rgba(46,46,46,0.15); font-family:'DM Sans',sans-serif; font-size:0.9rem; color:#2e2e2e; outline:none;" />
+      <button type="submit" style="background:#ff4d4d; color:white; font-family:'DM Sans',sans-serif; font-size:0.75rem; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; padding:14px; border:none; cursor:pointer; transition:background 0.2s;" onmouseover="this.style.background='#e03030'" onmouseout="this.style.background='#ff4d4d'">Send Me My Link →</button>
+    </form>
+
+    <div id="capture-success" style="display:none; text-align:center;">
+      <p style="color:#ff4d4d; font-family:'Playfair Display',serif; font-style:italic; font-size:1.1rem; margin-bottom:20px;">You're all set! Check your inbox. 🎙️</p>
+      <a href="https://podcastgrowthbff.com/diagnostic.html?access=pgbff97x2026" class="btn">Run My Diagnostic Now →</a>
+      <p class="note" style="margin-top:12px;">Or bookmark that link and run it when you're ready.</p>
+    </div>
+
+    <div style="margin-top:40px; padding-top:32px; border-top:1px solid rgba(46,46,46,0.1); text-align:left;">
+      <p style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#2e2e2e; margin-bottom:6px;">One quick question <span style="font-weight:400; font-style:italic;">(optional)</span></p>
+      <p style="font-size:0.85rem; color:rgba(46,46,46,0.55); margin-bottom:16px; line-height:1.6;">Who referred you, or how did you find the B.O.L.D. Diagnostic? If a friend sent you, drop her name — there may be something in it for her. 😊</p>
+      <form name="diagnostic-referral" netlify style="display:flex; flex-direction:column; gap:10px;">
+        <input type="hidden" name="form-name" value="diagnostic-referral" />
+        <input
+          type="text"
+          name="referral"
+          placeholder="e.g. Sarah sent me, Instagram, Google, podcast..."
+          style="width:100%; padding:13px 16px; border:1px solid rgba(46,46,46,0.15); font-family:'DM Sans',sans-serif; font-size:0.9rem; color:#2e2e2e; outline:none; background:white;"
+        />
+        <button
+          type="submit"
+          style="background:#ff4d4d; color:white; font-family:'DM Sans',sans-serif; font-size:0.72rem; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; padding:13px 24px; border:none; cursor:pointer; align-self:flex-start; transition:background 0.2s;"
+          onmouseover="this.style.background='#e03030'"
+          onmouseout="this.style.background='#ff4d4d'"
+        >Submit →</button>
+        <p id="referral-thanks" style="display:none; font-size:0.82rem; color:#ff4d4d; font-style:italic;">Got it — thank you!</p>
+      </form>
+    </div>
+
+  </div>
+<script>
+  document.getElementById('email-capture-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var name = document.getElementById('capture-name').value.trim();
+    var email = document.getElementById('capture-email').value.trim();
+    if (!name || !email || !email.includes('@')) {
+      alert('Please enter your name and email address.');
+      return;
+    }
+    var btn = this.querySelector('button');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    // Submit to Netlify function to add to Flodesk
+    fetch('/.netlify/functions/claude-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'flodesk',
+        email: email,
+        first_name: name,
+        segments: ['Diagnostic Purchase Made via Stripe']
+      })
+    }).finally(function() {
+      document.getElementById('email-capture-form').style.display = 'none';
+      document.getElementById('capture-success').style.display = 'block';
+    });
+  });
+</script>
+
+<script>
+  document.querySelector('form[name="diagnostic-referral"]').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var data = new URLSearchParams(new FormData(form));
+    fetch('/', { method: 'POST', body: data })
+      .then(function() {
+        form.style.display = 'none';
+        document.getElementById('referral-thanks').style.display = 'block';
+      })
+      .catch(function() {
+        document.getElementById('referral-thanks').style.display = 'block';
+      });
+  });
+</script>
+</body>
+</html>
