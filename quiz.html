@@ -1,1 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Are You Really? | Podcast Growth OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hot-pink: #ff4d4d;
+    --pink-bg: #ffb0c3;
+    --blush: #fff5f5;
+    --charcoal: #2e2e2e;
+    --cream: #FDF8F5;
+    --gold: #f5ca65;
+    --white: #FFFFFF;
+    --muted: #7a7a7a;
+    --border: rgba(255,77,77,0.18);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .quiz-nav {
+    background: var(--charcoal);
+    padding: 0 48px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .progress-bar-outer {
+    width: 100px;
+    height: 3px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-inner {
+    height: 100%;
+    background: var(--hot-pink);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* INTRO */
+  #intro {
+    min-height: calc(100vh - 56px);
+    background: var(--pink-bg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+
+  .intro-left {
+    padding: 80px 56px 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .intro-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .intro-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 9rem);
+    color: var(--charcoal);
+    line-height: 0.88;
+    margin-bottom: 24px;
+  }
+
+  .intro-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: rgba(30,30,30,0.65);
+    line-height: 1.65;
+    max-width: 400px;
+    margin-bottom: 40px;
+  }
+
+  .intro-meta {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 48px;
+  }
+
+  .intro-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .meta-num {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--hot-pink);
+    line-height: 1;
+  }
+
+  .meta-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(30,30,30,0.5);
+  }
+
+  .btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--hot-pink);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 18px 40px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    width: fit-content;
+  }
+
+  .btn-start:hover { background: #e03a3a; transform: translateY(-2px); }
+
+  .intro-right {
+    background: var(--charcoal);
+    padding: 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    clip-path: polygon(6% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .stage-preview-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 28px;
+  }
+
+  .stage-preview-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stage-preview-item:last-child { border-bottom: none; }
+
+  .stage-num {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: rgba(255,77,77,0.35);
+    line-height: 1;
+    min-width: 28px;
+    margin-top: 2px;
+  }
+
+  .stage-name {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+
+  .stage-signal {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.4;
+  }
+
+  /* QUIZ */
+  #quiz { min-height: calc(100vh - 56px); }
+
+  .quiz-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+
+  .question-block { display: none; }
+  .question-block.active {
+    display: block;
+    animation: fadeUp 0.35s ease forwards;
+  }
+
+  .q-number {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 14px;
+  }
+
+  .q-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--charcoal);
+    line-height: 1.05;
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
+  }
+
+  .q-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 36px;
+    line-height: 1.55;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-card {
+    border: 1.5px solid var(--border);
+    padding: 18px 20px 18px 18px;
+    background: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    position: relative;
+  }
+
+  .option-card:hover {
+    border-color: var(--hot-pink);
+    background: var(--blush);
+    transform: translateX(4px);
+  }
+
+  .option-card.selected {
+    border-color: var(--hot-pink);
+    background: #fff0f0;
+  }
+
+  .option-card.selected::after {
+    content: '✓';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--hot-pink);
+  }
+
+  .opt-letter {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--hot-pink);
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.15s;
+  }
+
+  .option-card.selected .opt-letter {
+    background: var(--hot-pink);
+    color: var(--white);
+    border-color: var(--hot-pink);
+  }
+
+  .opt-body { display: flex; flex-direction: column; gap: 3px; }
+
+  .opt-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.3;
+  }
+
+  .opt-desc {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+  }
+
+  .btn-back {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 0;
+    transition: color 0.2s;
+  }
+
+  .btn-back:hover { color: var(--charcoal); }
+  .btn-back:disabled { opacity: 0.2; cursor: default; }
+
+  .btn-next {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: var(--charcoal);
+    color: var(--white);
+    border: none;
+    padding: 16px 36px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  .btn-next.enabled {
+    opacity: 1;
+    pointer-events: all;
+    background: var(--hot-pink);
+  }
+
+  .btn-next.enabled:hover { background: #e03a3a; transform: translateY(-1px); }
+
+  /* EMAIL GATE */
+  #gate {
+    min-height: calc(100vh - 56px);
+    background: var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+  }
+
+  .gate-inner {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .gate-eyebrow {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 20px;
+  }
+
+  .gate-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    color: var(--white);
+    line-height: 0.92;
+    margin-bottom: 20px;
+  }
+
+  .gate-title span { color: var(--gold); }
+
+  .gate-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    margin-bottom: 44px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .gate-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .gate-input {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--charcoal);
+    background: var(--white);
+    border: 1.5px solid transparent;
+    padding: 16px 20px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .gate-input::placeholder { color: #aaa; }
+  .gate-input:focus { border-color: var(--hot-pink); }
+  .gate-input.error { border-color: var(--hot-pink); background: #fff8f8; }
+
+  .gate-error {
+    font-size: 12px;
+    color: var(--hot-pink);
+    font-weight: 500;
+    display: none;
+    text-align: left;
+    margin-top: -6px;
+  }
+
+  .btn-gate {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: var(--hot-pink);
+    color: var(--white);
+    border: none;
+    padding: 18px 40px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    width: 100%;
+  }
+
+  .btn-gate:hover { background: #e03a3a; transform: translateY(-1px); }
+
+  .gate-privacy {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+  }
+
+  /* RESULT */
+  #result { min-height: calc(100vh - 56px); }
+
+  .result-hero {
+    background: var(--charcoal);
+    padding: 72px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-bg-num {
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 50vw;
+    color: rgba(255,77,77,0.04);
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+  }
+
+  .result-hero > *:not(.result-bg-num) { position: relative; z-index: 1; }
+
+  .result-eyebrow {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 14px;
+  }
+
+  .result-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--gold);
+    padding: 6px 18px;
+    margin-bottom: 24px;
+  }
+
+  .result-greeting {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 8px;
+  }
+
+  .result-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 7rem);
+    color: var(--white);
+    line-height: 0.9;
+    margin-bottom: 20px;
+  }
+
+  .result-title .pink { color: var(--hot-pink); }
+
+  .result-tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: rgba(255,255,255,0.5);
+    max-width: 460px;
+    margin: 0 auto 36px;
+    line-height: 1.55;
+  }
+
+  .score-pips {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .pip {
+    width: 36px;
+    height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+  }
+
+  .pip.on { background: var(--hot-pink); }
+
+  .result-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+
+  .r-section { margin-bottom: 52px; }
+
+  .r-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .r-desc {
+    font-size: 15.5px;
+    line-height: 1.8;
+    color: var(--charcoal);
+    font-weight: 300;
+  }
+
+  .r-desc strong { font-weight: 600; }
+
+  .truth-box {
+    background: var(--charcoal);
+    padding: 36px 40px;
+    position: relative;
+    margin-bottom: 52px;
+    border-left: 4px solid var(--hot-pink);
+  }
+
+  .truth-qmark {
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    color: rgba(255,77,77,0.2);
+    position: absolute;
+    top: 12px;
+    left: 28px;
+    line-height: 1;
+  }
+
+  .truth-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    color: var(--white);
+    line-height: 1.55;
+    padding-left: 8px;
+  }
+
+  .need-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .need-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    padding: 24px 20px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .need-card:hover { transform: translateY(-4px); border-color: var(--hot-pink); }
+
+  .need-icon { font-size: 20px; margin-bottom: 12px; }
+
+  .need-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .need-desc {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .cta-box {
+    background: var(--pink-bg);
+    padding: 44px 40px;
+    margin-bottom: 52px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box-bg-word {
+    font-family: var(--font-display);
+    font-size: 12rem;
+    color: rgba(255,255,255,0.25);
+    position: absolute;
+    right: -10px;
+    bottom: -30px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .cta-box-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .cta-box-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    color: var(--charcoal);
+    line-height: 1;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-box-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(30,30,30,0.7);
+    line-height: 1.65;
+    margin-bottom: 28px;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-primary {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: var(--hot-pink);
+    color: var(--white);
+    border: none;
+    padding: 16px 32px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: #e03a3a; transform: translateY(-1px); }
+
+  .btn-outline {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--charcoal);
+    border: 1.5px solid rgba(30,30,30,0.3);
+    padding: 16px 32px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--charcoal); background: var(--charcoal); color: var(--white); }
+
+  .stage-map {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    padding: 32px;
+    margin-bottom: 52px;
+  }
+
+  .stage-map-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .map-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .map-row:last-child { border-bottom: none; }
+
+  .map-row.current {
+    padding-left: 12px;
+    border-left: 3px solid var(--hot-pink);
+    margin-left: -12px;
+  }
+
+  .map-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.12);
+    flex-shrink: 0;
+  }
+
+  .map-row.current .map-dot {
+    background: var(--hot-pink);
+    box-shadow: 0 0 0 3px rgba(255,77,77,0.18);
+  }
+
+  .map-name {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--charcoal);
+    flex: 1;
+  }
+
+  .map-row.current .map-name { font-weight: 700; color: var(--hot-pink); }
+
+  .map-signal {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--muted);
+  }
+
+  .you-tag {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--gold);
+    padding: 3px 10px;
+  }
+
+  .retake-row {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-retake {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .btn-retake:hover { color: var(--charcoal); }
+
+  .result-footer {
+    background: var(--charcoal);
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .result-footer p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    #intro { grid-template-columns: 1fr; }
+    .intro-right { display: none; }
+    .intro-left { padding: 60px 28px; }
+    .quiz-nav { padding: 0 20px; }
+    .quiz-body { padding: 40px 20px 60px; }
+    .result-body { padding: 44px 20px 60px; }
+    .truth-box { padding: 28px 24px; }
+    .cta-box { padding: 32px 24px; }
+    .cta-btns { flex-direction: column; }
+    .btn-primary, .btn-outline { text-align: center; }
+    .stage-map { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="quiz-nav">
+  <a href="https://podcastgrowthbff.com" class="nav-brand">Podcast Growth OS</a>
+  <div class="progress-wrap" id="nav-progress" style="display:none;">
+    <span class="progress-label" id="progress-label">1 / 6</span>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progress-bar"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<section id="intro" class="screen active">
+  <div class="intro-left">
+    <span class="intro-eyebrow">Podcast Growth OS · Free Assessment</span>
+    <h1 class="intro-title">WHERE<br>ARE YOU<br>REALLY?</h1>
+    <p class="intro-sub">Most podcasters think they're further along than they are. This isn't a judgment — it's a map. Six questions. Total clarity.</p>
+    <div class="intro-meta">
+      <div class="intro-meta-item">
+        <span class="meta-num">6</span>
+        <span class="meta-label">Questions</span>
+      </div>
+      <div class="intro-meta-item">
+        <span class="meta-num">3</span>
+        <span class="meta-label">Minutes</span>
+      </div>
+      <div class="intro-meta-item">
+        <span class="meta-num">4</span>
+        <span class="meta-label">Stages</span>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Take the Assessment →</button>
+  </div>
+  <div class="intro-right">
+    <div class="stage-preview-label">The Four Stages</div>
+    <div class="stage-preview-item">
+      <span class="stage-num">01</span>
+      <div>
+        <div class="stage-name">The Starter</div>
+        <div class="stage-signal">Called but still figuring it out</div>
+      </div>
+    </div>
+    <div class="stage-preview-item">
+      <span class="stage-num">02</span>
+      <div>
+        <div class="stage-name">The Consistent Creator</div>
+        <div class="stage-signal">Showing up — but not growing</div>
+      </div>
+    </div>
+    <div class="stage-preview-item">
+      <span class="stage-num">03</span>
+      <div>
+        <div class="stage-name">The Strategic Builder</div>
+        <div class="stage-signal">Traction, systems, real growth</div>
+      </div>
+    </div>
+    <div class="stage-preview-item">
+      <span class="stage-num">04</span>
+      <div>
+        <div class="stage-name">The Authority</div>
+        <div class="stage-signal">Platform, not just a podcast</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="screen">
+  <div class="quiz-body" id="quiz-body"></div>
+</section>
+
+<!-- EMAIL GATE -->
+<section id="gate" class="screen">
+  <div class="gate-inner">
+    <div class="gate-eyebrow">Almost There</div>
+    <h2 class="gate-title">YOUR RESULTS<br>ARE <span>READY.</span></h2>
+    <p class="gate-sub">Tell me where to send your stage breakdown, what it means for your show, and exactly what to do next.</p>
+    <div class="gate-form">
+      <input class="gate-input" id="gate-name" type="text" placeholder="First name" autocomplete="given-name">
+      <div class="gate-error" id="name-error">Please enter your first name.</div>
+      <input class="gate-input" id="gate-email" type="email" placeholder="Email address" autocomplete="email">
+      <div class="gate-error" id="email-error">Please enter a valid email address.</div>
+      <button class="btn-gate" onclick="submitGate()">Show Me My Results →</button>
+    </div>
+    <p class="gate-privacy">No spam. No selling your info. Just your results and a clear next step.</p>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" class="screen"></section>
+
+<script>
+const questions = [
+  {
+    q: "HOW FAR INTO YOUR PODCAST ARE YOU?",
+    sub: "Pick the one that matches where you actually are right now.",
+    options: [
+      { text: "0–10 episodes — I'm just getting started", desc: "Cover art, title, who it's for — it's all still shifting", scores: [4,1,0,0] },
+      { text: "Somewhere between 20–100 episodes, publishing consistently", desc: "I'm showing up. The growth just isn't there yet.", scores: [0,4,1,0] },
+      { text: "100+ episodes with a clear direction and real traction", desc: "Growing intentionally, starting to build systems around it", scores: [0,1,4,1] },
+      { text: "My podcast is driving real opportunities — speaking, sales, partnerships", desc: "The platform is working. Now I need to scale it without burning out.", scores: [0,0,1,4] }
+    ]
+  },
+  {
+    q: "WHICH OF THESE SOUNDS MOST LIKE YOU?",
+    sub: "Be honest — the most accurate answer gives you the most useful result.",
+    options: [
+      { text: "I've redone my cover art or changed my show description more than twice", desc: "Something keeps feeling off but I can't pinpoint what it is", scores: [4,1,0,0] },
+      { text: "I publish every week but my downloads have been flat for months", desc: "I'm consistent — I just don't think I'm being strategic about it", scores: [0,4,1,0] },
+      { text: "I know what my show is about, but my listener journey needs work", desc: "Listeners are coming — they're just not converting to anything", scores: [0,1,4,1] },
+      { text: "My show is solid — I want to scale without adding more to my plate", desc: "The foundation is there. Growth without burnout is the goal.", scores: [0,0,1,4] }
+    ]
+  },
+  {
+    q: "IF SOMEONE ASKED YOU RIGHT NOW WHAT YOUR PODCAST IS ABOUT — WHAT WOULD HAPPEN?",
+    sub: "Not what you wish you'd say. What you'd actually say.",
+    options: [
+      { text: "I'd give a vague answer about helping Christian women with something", desc: "It sounds okay but doesn't land — even to me", scores: [4,1,0,0] },
+      { text: "I have an answer. I'm just not sure it's specific enough to stand out.", desc: "Something's slightly off but I can't name it", scores: [1,4,0,0] },
+      { text: "I can say exactly who she is and exactly what she gets from my show", desc: "Clear, specific, and I believe it when I say it", scores: [0,1,4,1] },
+      { text: "My audience knows what the show is about before I even say a word", desc: "The brand and reputation do the talking for me", scores: [0,0,1,4] }
+    ]
+  },
+  {
+    q: "WHAT HAPPENS AFTER SOMEONE FINISHES AN EPISODE?",
+    sub: "Think about the specific words you use at the end of your episodes right now.",
+    options: [
+      { text: "Nothing intentional — I don't have a clear next step for her", desc: "No CTA, no funnel, no consistent ask at the end of episodes", scores: [4,1,0,0] },
+      { text: "I say something like 'follow me' or 'leave a review' — but it changes each time", desc: "There's an ask, but it isn't tied to anything strategic", scores: [1,4,1,0] },
+      { text: "I send her to a lead magnet or email list, but conversion is low", desc: "The funnel exists. It just isn't working as well as it should.", scores: [0,1,4,1] },
+      { text: "Her path from listener to community to client is mapped and intentional", desc: "Every episode points somewhere and she knows exactly what to do next", scores: [0,0,1,4] }
+    ]
+  },
+  {
+    q: "HOW DO YOU DECIDE WHAT YOUR NEXT EPISODE WILL BE ABOUT?",
+    sub: "Think about your actual process — not the one you wish you had.",
+    options: [
+      { text: "A question I got, something I'm thinking about, or whatever feels right that week", desc: "It's reactive. I don't have a plan — I have a running list of ideas.", scores: [4,1,0,0] },
+      { text: "I have some recurring themes, but there's no real structure behind them", desc: "Not random — but not intentional enough to build momentum", scores: [1,4,1,0] },
+      { text: "I have content pillars — I just want a tighter system for executing them", desc: "Structure exists. I want to make it work harder for me.", scores: [0,1,4,1] },
+      { text: "Every episode is part of a sequence that builds the platform and the audience", desc: "Authority, trust, and conversion are all working together", scores: [0,0,1,4] }
+    ]
+  },
+  {
+    q: "WHAT'S THE REAL REASON YOUR SHOW ISN'T WHERE YOU WANT IT TO BE?",
+    sub: "The honest answer — not the one you'd say in public.",
+    options: [
+      { text: "I don't have full clarity yet on what I'm actually building", desc: "The calling is clear. The structure isn't. I'm still figuring out the foundation.", scores: [4,1,0,0] },
+      { text: "I've been working hard but I don't think I've been working strategically", desc: "Consistency hasn't translated to growth and I'm getting tired", scores: [1,4,1,0] },
+      { text: "The show is good — I just don't have a real system behind it yet", desc: "I need optimization and structure, not more effort", scores: [0,1,4,1] },
+      { text: "I've built something real — I just need help scaling it without losing what makes it mine", desc: "Leverage and expansion without sacrificing depth or identity", scores: [0,0,1,4] }
+    ]
+  }
+];
+
+const stages = [
+  {
+    id: 'starter', stageNum: '01', name: 'THE STARTER', badge: 'Stage 01',
+    tagline: '"I feel called… but I have no clue what I\'m doing."',
+    desc: `You have the calling. You have the message. What you don't have yet is the structure that turns both into something a listener can find, follow, and trust. That is not a character flaw — that's exactly where every strong show begins. <strong>The problem isn't your passion. It's that passion without positioning keeps you circling.</strong> You're adjusting your cover art, rethinking your title, shifting your niche description — not because you're inconsistent, but because you haven't found the anchor yet. Once you do, everything settles.`,
+    truth: `You're not behind. You're at the beginning of something that deserves to be built right — not just quickly.`,
+    needs: [
+      { icon: '🎯', title: 'Positioning', desc: 'Who the show is for and what transformation it promises' },
+      { icon: '📐', title: 'Episode structure', desc: 'A repeatable format that builds trust and authority over time' },
+      { icon: '🌱', title: 'Foundation first', desc: 'More downloads won\'t fix a message that isn\'t clear yet' }
+    ],
+    ctaWord: 'START',
+    cta: { label: 'Your next step', heading: 'START WITH THE B.O.L.D. DIAGNOSTIC.', desc: 'The $97 self-serve diagnostic gives you a full structural read of your show — brand clarity, organic reach, lead path, and durability — before you build anything else. This is the clarity document your show needs before growth can stick.', primary: { text: 'Get the Diagnostic — $97', href: 'https://buy.stripe.com/8x2aEXcQTcKk22m0dEaAw04' }, secondary: { text: 'Learn More', href: 'https://podcastgrowthbff.com' } }
+  },
+  {
+    id: 'consistent', stageNum: '02', name: 'THE CONSISTENT CREATOR', badge: 'Stage 02',
+    tagline: '"I\'m showing up… but nothing\'s really moving."',
+    desc: `This is where most women are sitting — and where most of the frustration lives. You are not lazy. You are not inconsistent. You are working. And that's the hardest part: you're doing everything you were told to do, and the numbers still aren't reflecting it. <strong>Consistency is the price of admission. It is not the growth strategy.</strong> The gap between where you are and where you want to be isn't effort — it's alignment. Your SEO isn't matching what people are searching. Your titles aren't pulling the right listener. Your content doesn't build on itself yet. All of that is fixable — but it requires looking at your structure honestly.`,
+    truth: `Consistency without strategy is staying busy. You've earned the work ethic. Now it's time to earn the clarity.`,
+    needs: [
+      { icon: '🔍', title: 'Messaging alignment', desc: 'Your niche needs to match what your listener is actually searching for' },
+      { icon: '📈', title: 'Discoverability', desc: 'Title structure and keywords that make your show findable' },
+      { icon: '🧱', title: 'Content pillars', desc: 'Episodes that build on each other instead of feeling scattered' }
+    ],
+    ctaWord: 'ALIGN',
+    cta: { label: 'Your next step', heading: 'THE B.O.L.D. DIAGNOSTIC SHOWS YOU WHERE THE MISALIGNMENT IS.', desc: 'Stop guessing. The $97 self-serve diagnostic gives you a full structural assessment — brand clarity, organic reach, lead path, durability — so you know exactly what to fix and in what order.', primary: { text: 'Get the Diagnostic — $97', href: 'https://buy.stripe.com/8x2aEXcQTcKk22m0dEaAw04' }, secondary: { text: 'Learn More', href: 'https://podcastgrowthbff.com' } }
+  },
+  {
+    id: 'builder', stageNum: '03', name: 'THE STRATEGIC BUILDER', badge: 'Stage 03',
+    tagline: '"Okay… now we\'re getting somewhere."',
+    desc: `You've crossed the threshold. You're not guessing anymore — you're building. You understand your listener. You're seeing real traction. You're starting to treat the podcast like an asset, not just an outlet. <strong>This is the stage where the right system becomes a multiplier.</strong> You don't need more content — you need a sharper listener journey, tighter CTAs, and a clear path from episode to email to offer. The foundation is solid. Now it's time to build on it with intention — and stop leaving conversion on the table.`,
+    truth: `You've done the hard work of showing up. Now the question is: what is the listener doing after she hits play?`,
+    needs: [
+      { icon: '🗺️', title: 'Listener journey', desc: 'A clear path from episode → email → offer that actually converts' },
+      { icon: '⚙️', title: 'Content systems', desc: 'Repeatable frameworks that make production sustainable' },
+      { icon: '💰', title: 'Monetization', desc: 'Stage-appropriate offers that are aligned to your audience size' }
+    ],
+    ctaWord: 'BUILD',
+    cta: { label: 'Your next step', heading: 'YOU\'RE READY FOR THE DONE-FOR-YOU PODCAST GROWTH OS.', desc: 'The $397 OS is built for women at your exact stage — a complete structural blueprint with a 90-day episode plan, branded report, and custom Episode GPT. Application-only. Apply to see if a spot is available.', primary: { text: 'Apply for the Full OS — $397', href: 'https://podcastgrowthbff.com' }, secondary: { text: 'Start with the Diagnostic', href: 'https://buy.stripe.com/8x2aEXcQTcKk22m0dEaAw04' } }
+  },
+  {
+    id: 'authority', stageNum: '04', name: 'THE AUTHORITY', badge: 'Stage 04',
+    tagline: '"This isn\'t just a podcast… this is a platform."',
+    desc: `You're known for something specific. The show gets shared. Speaking invitations come in. Your offers are aligned with your audience. People find you and immediately understand what you carry. <strong>At this stage, clarity is your competitive advantage — and leverage is your next frontier.</strong> The question isn't whether you have something to say. It's whether your infrastructure is built to scale it without burning you out. Strategic partnerships, intentional repurposing, and airtight monetization are the work of this season.`,
+    truth: `You're not louder than everyone else. You're clearer. Don't let the pressure to grow faster make you second-guess the structure that got you here.`,
+    needs: [
+      { icon: '🚀', title: 'Scaling systems', desc: 'Infrastructure that supports expansion without adding chaos' },
+      { icon: '🤝', title: 'Strategic partnerships', desc: 'Collaborations that amplify reach without diluting your niche' },
+      { icon: '📦', title: 'Leverage', desc: 'Getting more impact from what you\'ve already built' }
+    ],
+    ctaWord: 'SCALE',
+    cta: { label: 'Your next step', heading: 'LET\'S AUDIT WHAT YOU\'VE BUILT AND MAP WHAT\'S NEXT.', desc: 'The done-for-you Podcast Growth OS gives you a full structural assessment at your stage — not as a beginner, but as a platform owner. Spots are limited. Application required.', primary: { text: 'Apply for the Full OS — $397', href: 'https://podcastgrowthbff.com' }, secondary: { text: 'Take the Diagnostic First', href: 'https://buy.stripe.com/8x2aEXcQTcKk22m0dEaAw04' } }
+  }
+];
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+let userName = '';
+let userEmail = '';
+let finalStage = null;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startQuiz() {
+  showScreen('quiz');
+  document.getElementById('nav-progress').style.display = 'flex';
+  renderQuestion(0);
+}
+
+function renderQuestion(index) {
+  const body = document.getElementById('quiz-body');
+  const q = questions[index];
+  const letters = ['A','B','C','D'];
+  document.getElementById('progress-label').textContent = `${index + 1} / ${questions.length}`;
+  document.getElementById('progress-bar').style.width = `${((index+1)/questions.length)*100}%`;
+
+  body.innerHTML = `
+    <div class="question-block active">
+      <div class="q-number">Question ${index+1} of ${questions.length}</div>
+      <h2 class="q-text">${q.q}</h2>
+      <p class="q-sub">${q.sub}</p>
+      <div class="options-list">
+        ${q.options.map((opt,i) => `
+          <div class="option-card ${answers[index]===i?'selected':''}" onclick="selectOption(${i})">
+            <div class="opt-letter">${letters[i]}</div>
+            <div class="opt-body">
+              <div class="opt-title">${opt.text}</div>
+              <div class="opt-desc">${opt.desc}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack()" ${index===0?'disabled':''}>← Back</button>
+        <button class="btn-next ${answers[index]!==null?'enabled':''}" id="btn-next" onclick="goNext()">
+          ${index===questions.length-1?'Get My Results →':'Next →'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(i) {
+  answers[current] = i;
+  document.querySelectorAll('.option-card').forEach((c,idx) => c.classList.toggle('selected', idx===i));
+  document.getElementById('btn-next').classList.add('enabled');
+}
+
+function goNext() {
+  if (answers[current] === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion(current);
+    const quizBody = document.getElementById('quiz-body');
+    if (quizBody) quizBody.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    const totals = [0,0,0,0];
+    answers.forEach((ans,qi) => {
+      if (ans !== null) questions[qi].options[ans].scores.forEach((s,si) => { totals[si] += s; });
+    });
+    finalStage = stages[totals.indexOf(Math.max(...totals))];
+    document.getElementById('nav-progress').style.display = 'none';
+    showScreen('gate');
+  }
+}
+
+function goBack() {
+  if (current > 0) {
+    current--;
+    renderQuestion(current);
+    const quizBody = document.getElementById('quiz-body');
+    if (quizBody) quizBody.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function submitGate() {
+  const nameEl = document.getElementById('gate-name');
+  const emailEl = document.getElementById('gate-email');
+  const nameErr = document.getElementById('name-error');
+  const emailErr = document.getElementById('email-error');
+
+  [nameEl, emailEl].forEach(el => el.classList.remove('error'));
+  [nameErr, emailErr].forEach(el => el.style.display = 'none');
+
+  let valid = true;
+  if (!nameEl.value.trim()) { nameEl.classList.add('error'); nameErr.style.display = 'block'; valid = false; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) { emailEl.classList.add('error'); emailErr.style.display = 'block'; valid = false; }
+  if (!valid) return;
+
+  userName = nameEl.value.trim().split(' ')[0];
+  userEmail = emailEl.value.trim();
+
+  // Submit to Flodesk via Netlify function
+  fetch('/.netlify/functions/claude-proxy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'flodesk',
+      email: userEmail,
+      firstName: userName,
+      segment: '69cf369b0ff36f633ef2e525',
+      quizStage: finalStage.name
+    })
+  }).catch(() => {});
+
+  showResult();
+}
+
+function showResult() {
+  const stage = finalStage;
+  const si = stages.indexOf(stage);
+  const pips = stages.map((_,i) => `<div class="pip ${i<=si?'on':''}"></div>`).join('');
+  const mapRows = stages.map(s => `
+    <div class="map-row ${s.id===stage.id?'current':''}">
+      <div class="map-dot"></div>
+      <div class="map-name">${s.name}</div>
+      <div class="map-signal">${['Called but still finding structure','Consistent but not growing','Building with real traction','Platform-level authority'][stages.indexOf(s)]}</div>
+      ${s.id===stage.id?'<span class="you-tag">You</span>':''}
+    </div>
+  `).join('');
+  const needCards = stage.needs.map(n => `
+    <div class="need-card">
+      <div class="need-icon">${n.icon}</div>
+      <div class="need-title">${n.title}</div>
+      <div class="need-desc">${n.desc}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('result').innerHTML = `
+    <div class="result-hero">
+      <div class="result-bg-num">${stage.stageNum}</div>
+      <div class="result-eyebrow">Your Stage</div>
+      <div class="result-badge">${stage.badge}</div>
+      <div class="result-greeting">Here's where you are, ${userName} —</div>
+      <h1 class="result-title"><span class="pink">THE </span>${stage.name.replace('THE ','')}</h1>
+      <p class="result-tagline">${stage.tagline}</p>
+      <div class="score-pips">${pips}</div>
+    </div>
+    <div class="result-body">
+      <div class="r-section">
+        <span class="r-label">What this means</span>
+        <p class="r-desc">${stage.desc}</p>
+      </div>
+      <div class="truth-box">
+        <div class="truth-qmark">"</div>
+        <p class="truth-text">${stage.truth}</p>
+      </div>
+      <div class="r-section">
+        <span class="r-label">What you actually need right now</span>
+        <div class="need-grid">${needCards}</div>
+      </div>
+      <div class="cta-box">
+        <div class="cta-box-bg-word">${stage.ctaWord}</div>
+        <span class="cta-box-label">${stage.cta.label}</span>
+        <h2 class="cta-box-heading">${stage.cta.heading}</h2>
+        <p class="cta-box-desc">${stage.cta.desc}</p>
+        <div class="cta-btns">
+          <a class="btn-primary" href="${stage.cta.primary.href}" target="_blank">${stage.cta.primary.text}</a>
+          <a class="btn-outline" href="${stage.cta.secondary.href}" target="_blank">${stage.cta.secondary.text}</a>
+        </div>
+      </div>
+      <div class="stage-map">
+        <span class="stage-map-label">The four stages — where you are now</span>
+        ${mapRows}
+      </div>
+      <div class="retake-row">
+        <button class="btn-retake" onclick="retake()">Retake the assessment</button>
+      </div>
+    </div>
+    <div class="result-footer">
+      <p>Podcast Growth OS · Built for Christian female podcasters · B.O.L.D. Framework</p>
+    </div>
+  `;
+  showScreen('result');
+}
+
+function retake() {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  finalStage = null; userName = ''; userEmail = '';
+  document.getElementById('nav-progress').style.display = 'none';
+  showScreen('intro');
+}
+</script>
+</body>
+</html>
